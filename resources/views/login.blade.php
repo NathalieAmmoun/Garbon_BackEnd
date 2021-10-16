@@ -44,7 +44,7 @@
                         <center>
                         <div class="login-logo">
                             <a href="#">
-                                <img src="{{asset('assets/images/icon/logo4.png')}}" alt="CoolAdmin">
+                                <img src="{{asset('assets/images/icon/garbon_logo.png')}}" alt="CoolAdmin">
                             </a>
                         </div>
                         </center>

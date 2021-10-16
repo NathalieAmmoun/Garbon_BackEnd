@@ -490,12 +490,12 @@ section {
 }
 
 .au-btn--green {
-    background: #FE5267;
+    background: #9cc026;
     border-radius: 10px;
 }
 
 .au-btn--green:hover {
-    background: #FE5267;
+    background: #178843;
 }
 
 .au-btn-plus {

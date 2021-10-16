@@ -95,8 +95,7 @@
             <h2>Recently Added Collectors</h2>
                 
                     
-                        <div class="row">
-                        <div class="collectors_div" id="collectors_div">
+                        <div class="row collectors_div" id="collectors_div">
                         </div>
                         </div>
                     </div>

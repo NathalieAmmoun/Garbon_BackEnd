@@ -9,8 +9,8 @@ function getUnapprovedCollectors(){
 
                 recyclables+=`<p class="card-text">${recyclable[0].name}</p>`;
             })
-             $(".collectors_div").append(`<div><div id='collector_${collector.collectors.id}' class='card'><div class='card-body'><h4 class="card-title mb-3">Collector Name: ${collector.collectors.name}</h4><p class="card-text">Description: ${collector.collectors.description}</p><p>Recycles:<p> ${recyclables}
-             <button style='width:50%' type='button' onclick='approve(${collector.collectors.id});' class='btn btn-success'>Approve</button><button type='button' style='width:50%' onclick='deleteCollector(${collector.collectors.id});' class='btn btn-danger'>Decline</button></div></div></div>`)});
+             $(".collectors_div").append(`<div id='collector_${collector.collectors.id}' class='card col-md-3'><div class='card-body'><h4 class="card-title mb-3">Collector Name: ${collector.collectors.name}</h4><p class="card-text">Description: ${collector.collectors.description}</p><p>Recycles:<p> ${recyclables}
+             <button style='width:50%' type='button' onclick='approve(${collector.collectors.id});' class='btn btn-success'>Approve</button><button type='button' style='width:50%' onclick='deleteCollector(${collector.collectors.id});' class='btn btn-danger'>Decline</button></div></div><div class='col-md-1'></div>`)});
 }).catch(error => {
     console.log(error.message);
 });
