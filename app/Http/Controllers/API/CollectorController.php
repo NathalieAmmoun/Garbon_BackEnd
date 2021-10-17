@@ -139,11 +139,33 @@ class CollectorController extends Controller
     return json_encode($results,JSON_PRETTY_PRINT);
 
 }   
+public function getApprovedRequests(){
+    $user_id = auth()->user()->id;
+    $collector= Collector::where("user_id", $user_id)->get("id");
+    $collector_id= $collector[0]->id;
+    $requests = PickupRequest::where("collector_id", $collector_id)
+                            ->where('is_approved', 1)
+                            ->where('is_declined',0)->orderBy('pickup_date', 'desc')->take(6)->get();
+    for($i = 0; $i < count($requests); $i++){
+        $user_id = $requests[$i]->user_id;
+        $user[$i] = User::where('id', $user_id)->get(["id", "first_name", "last_name"]);
+        $address[$i] = Address::where('user_id', $user_id)->get();
+}
+$results = array();
+for($i = 0; $i < count($requests); $i++){
+    $results[$i]["request"] = $requests[$i];
+    $results[$i]["user"] = $user[$i];
+    $results[$i]['address'] = $address[$i];
+}
+return json_encode($results,JSON_PRETTY_PRINT);
+
+}   
 
 public function approveRequest(Request $request){
     $request_id = $request->request_id;
     $pickup_request = PickupRequest::find($request_id);
     $pickup_request->is_approved = 1;
+    $pickup_request->is_declined = 0;
     $pickup_request->save();
     return response()->json([
         'status' => true,
@@ -154,6 +176,7 @@ public function approveRequest(Request $request){
 public function declineRequest(Request $request){
     $request_id = $request->request_id;
     $pickup_request = PickupRequest::find($request_id);
+    $pickup_request->is_approved = 1;
     $pickup_request->is_declined = 1;
     $pickup_request->save();
     return response()->json([

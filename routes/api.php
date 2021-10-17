@@ -31,6 +31,7 @@ Route::group(['middleware' => 'collector'], function() {
     Route::post('/edit-collector-profile', [CollectorController::class, 'editCollectorProfile']);
     Route::post('/delete-recyclable', [CollectorController::class, 'deleteRecyclable']);
     Route::get('/get-unapproved-requests', [CollectorController::class, 'getUnapprovedRequests']);
+    Route::get('/get-approved-requests', [CollectorController::class, 'getApprovedRequests']);
     Route::post('/approve-request', [CollectorController::class, 'approveRequest']);
     Route::post('/decline-request', [CollectorController::class, 'declineRequest']);
     Route::get('/get-recyclables', [CollectorController::class, 'getRecyclables']);
@@ -51,5 +52,7 @@ Route::group(['middleware' => 'business'], function() {
     Route::get('/unapproved-collectors', [CollectorController::class, 'getUnapprovedCollectors']);
     Route::post('/request-pickup', [AuthController::class, 'newPickupRequest']);
     Route::get('/my-requests', [AuthController::class, 'getMyRequests']);
+    Route::post('/store-token', [AuthController::class, 'storeToken']);
+    Route::post('/send-notification', [AuthController::class, 'sendNotification']);
 });
 

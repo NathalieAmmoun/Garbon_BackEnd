@@ -10,6 +10,7 @@ use App\Models\PickupRequest;
 use App\Models\Address;
 use App\Models\CollectorRecycle;
 use Illuminate\Support\Facades\Validator;
+use \App\Mail\SendMail;
 
 class AuthController extends Controller
 {
@@ -108,11 +109,13 @@ class AuthController extends Controller
 
         $collector_id = ($request->header('collectorid'));
         $collector = Collector::find($collector_id);
+        $user_id = $collector->user_id;
+        $collector_user = User::find($user_id);
+        $collector_email = $collector_user->email;
         if($collector != null){
         $collector->is_approved = 1;
         $collector->save();     
         }
-
 
 
         return response()->json([
@@ -130,9 +133,14 @@ class AuthController extends Controller
             
         $collector_id = $request->header('collectorid');
         $collector =Collector::find($collector_id);
+        $user_id = $collector->user_id;
+        $collector_user = User::find($user_id);
+        $collector_email = $collector_user->email;
         $collector->delete();
+        $collector_user->delete();
         $recyclable =CollectorRecycle::where("collector_id",$collector_id);
-        $recyclable->delete();      
+        $recyclable->delete();
+
         return response()->json([
             'status' => true,
             'message' => 'Admin disapproved collector',
@@ -195,6 +203,8 @@ class AuthController extends Controller
         $pickup_request->address_id = $address_id;
         $pickup_request->is_approved = 0;
         $pickup_request->is_declined = 0;
+        $pickup_request->pickup_date =$request->pickup_date;
+        $pickup_request->pickup_time =$request->pickup_time;
         $pickup_request->save();
         return response()->json([
             "status" => 1,
@@ -217,6 +227,57 @@ class AuthController extends Controller
             $results[$i]["collector"] = $collector[$i];
         }
         return json_encode($results,JSON_PRETTY_PRINT);
+}
+public function storeToken(Request $request)
+    {   
+        $id = auth()->user()->id;
+        $user = User::find($id);
+        $user->device_token = $request->token;
+        $user->save();
+        return response()->json(['Token successfully stored.']);
+    }
+
+
+public function sendNotification(Request $request)
+{
+    $user_id = $request->user_id;
+    $firebaseTokenObj = User::where("id", $user_id)->get("device_token");
+    $firebaseToken = $firebaseTokenObj[0]->device_token;
+    //$firebaseToken = "eEoUZ6wZhUg:APA91bG6NxuAC-jnIB4UbQQgxNoipt-8kjuH8N_fYgq7wZPiOPyFCsQ5kE-Kgkpz0iuD37lotDuOrgTnHGudeDlnZYt54DHgiBD0mM7-fci7CdxQYtESH791ZoDgmuj8p2wV0FvjnXeZ";
+    $SERVER_API_KEY = 'AAAA-TxoaWA:APA91bHIUs4v6COgAmdaqXgqpxWUiM_k2gWsaPjZlXJm6r7nCr-mUtLe3faEW7svU09AEKvLCVUM5rORqjMXOojmp6FyxCm6mQjCZW38Z11lXXFQN1bVEjO0_YSZVA43zhvUNY9vPpCq';
+
+    $data = [
+        "to" => $firebaseToken,
+        "notification" => [
+            "title" => $request->title,
+            "body" => $request->body,  
+        ]
+    ];
+    $dataString = json_encode($data);
+
+    $headers = array(
+        'Authorization: key=' . $SERVER_API_KEY,
+        'Content-Type: application/json',
+    );
+
+    $ch = curl_init();
+  
+    curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
+           
+    $response = curl_exec($ch);
+    
+    if ($response === FALSE) {
+        die('Curl failed: ' . curl_error($ch));
+    }        
+
+    // Close connection
+    curl_close($ch);  
+    dd($response);
 }
 
 

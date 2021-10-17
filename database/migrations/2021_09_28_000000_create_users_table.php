@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('phone');
             $table->string('email')->unique();
             $table->string('password');
+            $table->string('device_token')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
@@ -31,7 +32,7 @@ class CreateUsersTable extends Migration
             $table->timestamps();
 			$table->softDeletes();
         });
-        // r for residential, b for businesses, c for collectors, s for SuperAdmin
+        
         Schema::create('user_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -57,6 +58,8 @@ class CreateUsersTable extends Migration
             $table->unsignedinteger('collector_id');
             $table->boolean('is_approved');
             $table->boolean('is_declined');
+            $table->date("pickup_date");
+            $table->time("pickup_time");
             $table->timestamps();
 			$table->softDeletes();
         });

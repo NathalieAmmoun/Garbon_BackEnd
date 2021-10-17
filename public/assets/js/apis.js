@@ -22,7 +22,7 @@ async function unApprovedCollectorsAPI(){
     var access_token = $("#access_token").val();
     var authorization = "bearer "+access_token;
     var accept = "application/json";
-    const response = await fetch("http://127.0.0.1:8000/api/auth/unapproved-collectors", {
+    const response = await fetch("http://18.217.195.205/api/auth/unapproved-collectors", {
         method: 'GET',
         headers: {
             'Authorization': authorization,
@@ -55,7 +55,7 @@ async function approveAPI(collector_id){
     var access_token = $("#access_token").val();
     var authorization = "bearer "+access_token;
     var accept = "application/json";
-    const response = await fetch("http://127.0.0.1:8000/api/auth/approve-collector", {
+    const response = await fetch("http://18.217.195.205/api/auth/approve-collector", {
         method: 'POST',
         headers: {
             'Authorization': authorization,
@@ -87,7 +87,7 @@ async function deleteCollectorAPI(collector_id){
     var access_token = $("#access_token").val();
     var authorization = "bearer "+access_token;
     var accept = "application/json";
-    const response = await fetch("http://127.0.0.1:8000/api/auth/disapprove-collector", {
+    const response = await fetch("http://18.217.195.205/api/auth/disapprove-collector", {
         method: 'POST',
         headers: {
             'Authorization': authorization,
