@@ -54,5 +54,6 @@ Route::group(['middleware' => 'business'], function() {
     Route::get('/my-requests', [AuthController::class, 'getMyRequests']);
     Route::post('/store-token', [AuthController::class, 'storeToken']);
     Route::post('/send-notification', [AuthController::class, 'sendNotification']);
+    Route::post('/available-time', [AuthController::class, 'availableTime']);
 });
 

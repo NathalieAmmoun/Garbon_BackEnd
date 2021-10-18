@@ -32,7 +32,12 @@ class CreateUsersTable extends Migration
             $table->timestamps();
 			$table->softDeletes();
         });
-        
+        Schema::create('time_slots', function (Blueprint $table) {
+            $table->id();
+            $table->time('time_slot');
+            $table->timestamps();
+			$table->softDeletes();
+        });
         Schema::create('user_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -60,6 +65,7 @@ class CreateUsersTable extends Migration
             $table->boolean('is_declined');
             $table->date("pickup_date");
             $table->time("pickup_time");
+            $table->unsignedinteger("pickup_time_id");
             $table->timestamps();
 			$table->softDeletes();
         });
@@ -89,6 +95,7 @@ class CreateUsersTable extends Migration
         Schema::dropIfExists('industries');
         Schema::dropIfExists('recyclables');
         Schema::dropIfExists('pickup_requests');
+        Schema::dropIfExists('time_slots');
         Schema::dropIfExists('collector_recycles');
     }
 }

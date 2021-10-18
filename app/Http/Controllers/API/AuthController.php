@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Collector;
 use App\Models\PickupRequest;
 use App\Models\Address;
+use App\Models\TimeSlot;
 use App\Models\CollectorRecycle;
 use Illuminate\Support\Facades\Validator;
 use \App\Mail\SendMail;
@@ -205,6 +206,7 @@ class AuthController extends Controller
         $pickup_request->is_declined = 0;
         $pickup_request->pickup_date =$request->pickup_date;
         $pickup_request->pickup_time =$request->pickup_time;
+        $pickup_request->pickup_time_id =$request->pickup_time_id;
         $pickup_request->save();
         return response()->json([
             "status" => 1,
@@ -296,6 +298,14 @@ public function sendNotification(Request $request)
             'expires_in' => auth()->factory()->getTTL() * 60,
             'user' => auth()->user()
         ]);
+    }
+    public function availableTime(Request $request){
+        $date = $request->date;
+        $reserved = PickupRequest::where("pickup_date", $date)
+                                    ->where("is_declined", "0")->pluck("pickup_time_id");
+        
+        $availableTime = TimeSlot::whereNotIn("id", $reserved)->get();
+        return json_encode($availableTime,JSON_PRETTY_PRINT);
     }
 
 }

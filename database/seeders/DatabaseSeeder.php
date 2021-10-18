@@ -7,6 +7,7 @@ use App\Models\UserType;
 use App\Models\Industry;
 use App\Models\Recyclable;
 use App\Models\User;
+use App\Models\TimeSlot;
 use App\Models\CollectorRecycle;
 use App\Models\Collector;
 class DatabaseSeeder extends Seeder
@@ -192,6 +193,43 @@ class DatabaseSeeder extends Seeder
             CollectorRecycle::create([
                 "collector_id"=>"4",
                 "recyclable_id"=>"4"
+            ]);
+
+            TimeSlot::create([
+                
+                "time_slot"=>"09:00"
+            ]);
+            TimeSlot::create([
+                
+                "time_slot"=>"10:00"
+            ]);
+            TimeSlot::create([
+                
+                "time_slot"=>"11:00"
+            ]);
+            TimeSlot::create([
+                
+                "time_slot"=>"12:00"
+            ]);
+            TimeSlot::create([
+                
+                "time_slot"=>"13:00"
+            ]);
+            TimeSlot::create([
+                
+                "time_slot"=>"14:00"
+            ]);
+            TimeSlot::create([
+                
+                "time_slot"=>"15:00"
+            ]);
+            TimeSlot::create([
+                
+                "time_slot"=>"16:00"
+            ]);
+            TimeSlot::create([
+                
+                "time_slot"=>"17:00"
             ]);
     }
 }
