@@ -73,7 +73,7 @@
                                         <div class="account-dropdown js-dropdown">
                                             
                                             <div class="account-dropdown__footer">
-                                                <a href="http://127.0.0.1:8000/api/auth/logout">
+                                                <a href="http://18.217.195.205/api/auth/logout">
                                                     <i class="zmdi zmdi-power"></i>Logout</a>
                                             </div>
                                         </div>
