@@ -12,7 +12,7 @@ class Collector extends Model
 {
   
     use HasFactory;
-    protected $table="Collectors";
+    protected $table="collectors";
     protected $fillable = ["name", "description"];
     public $timestamps = false;
     
