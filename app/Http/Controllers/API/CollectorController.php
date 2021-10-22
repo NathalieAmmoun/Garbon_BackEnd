@@ -16,7 +16,7 @@ class CollectorController extends Controller
     
     public function __construct()
     {
-        $this->middleware('auth:api');
+        $this->middleware('auth:api',['except'=>['displayCollectors']]);
     }
     public function addCollector(Request $request)
     {
