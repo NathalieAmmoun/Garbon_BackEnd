@@ -10,8 +10,8 @@ use App\Http\Controllers\API\CollectorController;
 
 Route::post('/adminLogin', [AuthController::class, 'adminLogin'])->name('admin-login');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
-
-
+Route::get('/display-all-collectors', [CollectorController::class, 'displayCollectors']);
+Route::post('/available-time', [AuthController::class, 'availableTime']);
 Route::group([
     'middleware' => 'api',
     'prefix' => 'auth'
@@ -44,7 +44,7 @@ Route::group(['middleware' => 'business'], function() {
     Route::post('/add-business', [BusinessController::class, 'addBusiness']);
 });
 
-    Route::get('/display-all-collectors', [CollectorController::class, 'displayCollectors']);
+    
     Route::post('/approve-collector', [AuthController::class, 'approveCollector']);
     Route::post('/disapprove-collector', [AuthController::class, 'disapproveCollector']);
     Route::post('/edit-user-profile', [AuthController::class, 'editUserProfile']);
@@ -54,6 +54,6 @@ Route::group(['middleware' => 'business'], function() {
     Route::get('/my-requests', [AuthController::class, 'getMyRequests']);
     Route::post('/store-token', [AuthController::class, 'storeToken']);
     Route::post('/send-notification', [AuthController::class, 'sendNotification']);
-    Route::post('/available-time', [AuthController::class, 'availableTime']);
+    
 });
 
