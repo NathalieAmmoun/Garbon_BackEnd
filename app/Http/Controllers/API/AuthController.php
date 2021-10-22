@@ -301,8 +301,11 @@ public function sendNotification(Request $request)
     }
     public function availableTime(Request $request){
         $date = $request->date;
+        $collector_id = $request->collector_id;
         $reserved = PickupRequest::where("pickup_date", $date)
-                                    ->where("is_declined", "0")->pluck("pickup_time_id");
+                                    ->where("is_declined", "0")
+                                    ->where("collector_id",$collector_id)
+                                    ->pluck("pickup_time_id");
         
         $availableTime = TimeSlot::whereNotIn("id", $reserved)->get();
         return json_encode($availableTime,JSON_PRETTY_PRINT);
