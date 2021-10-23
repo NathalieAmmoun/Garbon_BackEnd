@@ -176,7 +176,7 @@ public function approveRequest(Request $request){
 public function declineRequest(Request $request){
     $request_id = $request->request_id;
     $pickup_request = PickupRequest::find($request_id);
-    $pickup_request->is_approved = 1;
+    $pickup_request->is_approved = 0;
     $pickup_request->is_declined = 1;
     $pickup_request->save();
     return response()->json([
