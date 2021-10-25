@@ -140,6 +140,7 @@ class CollectorController extends Controller
 
 }   
 public function getApprovedRequests(){
+    
     $user_id = auth()->user()->id;
     $collector= Collector::where("user_id", $user_id)->get("id");
     $collector_id= $collector[0]->id;

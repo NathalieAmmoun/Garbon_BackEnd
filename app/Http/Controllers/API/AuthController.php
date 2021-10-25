@@ -11,7 +11,6 @@ use App\Models\Address;
 use App\Models\TimeSlot;
 use App\Models\CollectorRecycle;
 use Illuminate\Support\Facades\Validator;
-use \App\Mail\SendMail;
 
 class AuthController extends Controller
 {
@@ -89,15 +88,16 @@ class AuthController extends Controller
                 "errors" => $validator->errors()
             ), 400);
         }
-
         $user = User::create(array_merge(
             $validator->validated(),
             ['password' => bcrypt($request->password)]
         ));
-
+       $token = auth()->attempt($validator->validated());
+       
         return response()->json([
             'status' => true,
             'message' => 'User successfully registered',
+            'access_token'=>$token,
             'user' => $user
         ], 201);
     }
@@ -234,7 +234,7 @@ public function storeToken(Request $request)
     {   
         $id = auth()->user()->id;
         $user = User::find($id);
-        $user->device_token = $request->token;
+        $user->device_token = $request->device_token;
         $user->save();
         return response()->json(['Token successfully stored.']);
     }
