@@ -124,7 +124,9 @@ class CollectorController extends Controller
         $collector_id= $collector[0]->id;
         $requests = PickupRequest::where("collector_id", $collector_id)
                                 ->where('is_approved', 0)
-                                ->where('is_declined',0)->get();
+                                ->where('is_declined',0)
+                                ->where('is_done',0)
+                                ->where('is_canceled', 0)->get();
         for($i = 0; $i < count($requests); $i++){
             $user_id = $requests[$i]->user_id;
             $user[$i] = User::where('id', $user_id)->get(["id", "first_name", "last_name"]);
@@ -146,7 +148,7 @@ public function getApprovedRequests(){
     $collector_id= $collector[0]->id;
     $requests = PickupRequest::where("collector_id", $collector_id)
                             ->where('is_approved', 1)
-                            ->where('is_declined',0)->orderBy('pickup_date', 'desc')->take(6)->get();
+                            ->where('is_declined',0)->get();
     for($i = 0; $i < count($requests); $i++){
         $user_id = $requests[$i]->user_id;
         $user[$i] = User::where('id', $user_id)->get(["id", "first_name", "last_name"]);
@@ -183,6 +185,41 @@ public function declineRequest(Request $request){
     return response()->json([
         'status' => true,
         'message' => 'Collector declined Request',
+    ], 201);
+}
+
+public function eventDone(Request $request){
+    $request_id = $request->request_id;
+    $pickup_request = PickupRequest::find($request_id);
+    $pickup_request->is_done = 1;
+    $pickup_request->save();
+    return response()->json([
+        'status' => true,
+        'message' => 'Event successfully Done',
+    ], 201);
+}
+
+public function eventCancel(Request $request){
+    $request_id = $request->request_id;
+    $pickup_request = PickupRequest::find($request_id);
+    $pickup_request->is_approved = 0;
+    $pickup_request->is_canceled = 1;
+    $pickup_request->save();
+    return response()->json([
+        'status' => true,
+        'message' => 'Event successfully cancel',
+    ], 201);
+}
+
+public function eventChange(Request $request){
+    $request_id= $request->request_id;
+    $pickup_request = PickupRequest::find($request_id);
+    $pickup_request->pickup_date = $request->pickup_date;
+    $pickup_request->pickup_time =$request->pickup_time;
+    $pickup_request->save();
+    return response()->json([
+        'status' => true,
+        'message' => 'Event successfully changed',
     ], 201);
 }
 }

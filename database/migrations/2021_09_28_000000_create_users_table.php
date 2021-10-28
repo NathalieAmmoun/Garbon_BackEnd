@@ -63,6 +63,8 @@ class CreateUsersTable extends Migration
             $table->unsignedinteger('collector_id');
             $table->boolean('is_approved');
             $table->boolean('is_declined');
+            $table->boolean('is_done');
+            $table->boolean('is_canceled');
             $table->date("pickup_date");
             $table->time("pickup_time");
             $table->unsignedinteger("pickup_time_id");

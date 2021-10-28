@@ -204,6 +204,8 @@ class AuthController extends Controller
         $pickup_request->address_id = $address_id;
         $pickup_request->is_approved = 0;
         $pickup_request->is_declined = 0;
+        $pickup_request->is_done = 0;
+        $pickup_request->is_canceled= 0;
         $pickup_request->pickup_date =$request->pickup_date;
         $pickup_request->pickup_time =$request->pickup_time;
         $pickup_request->pickup_time_id =$request->pickup_time_id;

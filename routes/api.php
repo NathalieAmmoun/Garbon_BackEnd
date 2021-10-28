@@ -35,7 +35,9 @@ Route::group(['middleware' => 'collector'], function() {
     Route::post('/approve-request', [CollectorController::class, 'approveRequest']);
     Route::post('/decline-request', [CollectorController::class, 'declineRequest']);
     Route::get('/get-recyclables', [CollectorController::class, 'getRecyclables']);
-
+    Route::post('/event-done', [CollectorController::class, 'eventDone']);
+    Route::post('/event-cancel', [CollectorController::class, 'eventCancel']);
+    Route::post('/event-change', [CollectorController::class, 'eventChange']);
 
 });
 
