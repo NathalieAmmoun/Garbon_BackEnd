@@ -9,7 +9,7 @@ use App\Models\CollectorRecycle;
 use App\Models\Recyclable;
 use App\Models\Address;
 use App\Models\PickupRequest;
-
+use DB;
 
 class CollectorController extends Controller
 {
@@ -222,4 +222,18 @@ public function eventChange(Request $request){
         'message' => 'Event successfully changed',
     ], 201);
 }
+
+public function analytics()
+    {
+        $recyclers = PickupRequest::select(
+                            
+                            DB::raw("(sum(user_id)) as total_users"),
+                            DB::raw("(DATE_FORMAT(pickup_date, '%m-%Y')) as month_year")
+                            )
+                            ->orderBy('pickup_date')
+                            ->groupBy(DB::raw("DATE_FORMAT(pickup_date, '%m-%Y')"), "user_id")
+                            ->get();
+  
+        return json_encode($recyclers,JSON_PRETTY_PRINT);
+    }
 }

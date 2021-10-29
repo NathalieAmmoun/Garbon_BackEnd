@@ -38,7 +38,7 @@ Route::group(['middleware' => 'collector'], function() {
     Route::post('/event-done', [CollectorController::class, 'eventDone']);
     Route::post('/event-cancel', [CollectorController::class, 'eventCancel']);
     Route::post('/event-change', [CollectorController::class, 'eventChange']);
-
+    Route::post('/analytics', [CollectorController::class, 'analytics']);
 });
 
 Route::group(['middleware' => 'business'], function() {
