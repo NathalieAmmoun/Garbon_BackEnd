@@ -10,6 +10,7 @@ use App\Models\Recyclable;
 use App\Models\Address;
 use App\Models\PickupRequest;
 use DB;
+use Carbon\Carbon;
 
 class CollectorController extends Controller
 {
@@ -223,17 +224,79 @@ public function eventChange(Request $request){
     ], 201);
 }
 
-public function analytics()
+public function monthlyPickupsAnalytics()
     {
+        $user_id = auth()->user()->id;
+        $collector= Collector::where("user_id", $user_id)->get("id");
+        $collector_id= $collector[0]->id;
         $recyclers = PickupRequest::select(
-                            
-                            DB::raw("(sum(user_id)) as total_users"),
-                            DB::raw("(DATE_FORMAT(pickup_date, '%m-%Y')) as month_year")
-                            )
-                            ->orderBy('pickup_date')
-                            ->groupBy(DB::raw("DATE_FORMAT(pickup_date, '%m-%Y')"), "user_id")
-                            ->get();
+            DB::raw("(count(id)) as total_pickups"),
+            DB::raw("(DATE_FORMAT(pickup_date, '%d-%m-%Y')) as pickup_date")
+            )
+            ->whereDate('pickup_date', '>', Carbon::now()->subDays(30))
+            ->where("is_done",1)
+            ->where("collector_id", $collector_id)
+            ->orderBy('pickup_date')
+            ->groupBy(DB::raw("DATE_FORMAT(pickup_date, '%d-%m-%Y')"))
+            ->get();
   
         return json_encode($recyclers,JSON_PRETTY_PRINT);
     }
+    public function monthlyTotalAnalytics()
+    {
+        $user_id = auth()->user()->id;
+        $collector= Collector::where("user_id", $user_id)->get("id");
+        $collector_id= $collector[0]->id;
+        $recyclers = PickupRequest::select(
+            DB::raw("(count(id)) as total_pickups"),
+            DB::raw("(DATE_FORMAT(pickup_date, '%d-%m-%Y')) as pickup_date")
+            )
+            ->whereDate('pickup_date', '>', Carbon::now()->subDays(30))
+            ->where("collector_id", $collector_id)
+            ->orderBy('pickup_date')
+            ->groupBy(DB::raw("DATE_FORMAT(pickup_date, '%d-%m-%Y')"))
+            ->get();
+  
+        return json_encode($recyclers,JSON_PRETTY_PRINT);
+    }
+
+    public function WeeklyTotalAnalytics()
+    {
+        $user_id = auth()->user()->id;
+        $collector= Collector::where("user_id", $user_id)->get("id");
+        $collector_id= $collector[0]->id;
+
+        $recyclers = PickupRequest::select(
+            DB::raw("(count(id)) as total_pickups"),
+            DB::raw("(DATE_FORMAT(pickup_date, '%d-%m-%Y')) as pickup_date")
+            )
+            ->whereDate('pickup_date', '>', Carbon::now()->subDays(7))
+            ->where("collector_id", $collector_id)
+            ->orderBy('pickup_date')
+            ->groupBy(DB::raw("DATE_FORMAT(pickup_date, '%d-%m-%Y')"))
+            ->get();
+  
+        return json_encode($recyclers,JSON_PRETTY_PRINT);
+    }
+
+    public function WeeklyPickupAnalytics()
+    {
+        $user_id = auth()->user()->id;
+        $collector= Collector::where("user_id", $user_id)->get("id");
+        $collector_id= $collector[0]->id;
+
+        $recyclers = PickupRequest::select(
+            DB::raw("(count(id)) as total_pickups"),
+            DB::raw("(DATE_FORMAT(pickup_date, '%d-%m-%Y')) as pickup_date")
+            )
+            ->whereDate('pickup_date', '>', Carbon::now()->subDays(7))
+            ->where("is_done",1)
+            ->where("collector_id", $collector_id)
+            ->orderBy('pickup_date')
+            ->groupBy(DB::raw("DATE_FORMAT(pickup_date, '%d-%m-%Y')"))
+            ->get();
+  
+        return json_encode($recyclers,JSON_PRETTY_PRINT);
+    }
+
 }

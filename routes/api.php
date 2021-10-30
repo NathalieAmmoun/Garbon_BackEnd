@@ -38,7 +38,10 @@ Route::group(['middleware' => 'collector'], function() {
     Route::post('/event-done', [CollectorController::class, 'eventDone']);
     Route::post('/event-cancel', [CollectorController::class, 'eventCancel']);
     Route::post('/event-change', [CollectorController::class, 'eventChange']);
-    Route::post('/analytics', [CollectorController::class, 'analytics']);
+    Route::get('/monthly-pickups-analytics', [CollectorController::class, 'monthlyPickupsAnalytics']);
+    Route::get('/monthly-total-analytics', [CollectorController::class, 'monthlyTotalAnalytics']);
+    Route::get('/weekly-total-analytics', [CollectorController::class, 'weeklyTotalAnalytics']);
+    Route::get('/weekly-pickup-analytics', [CollectorController::class, 'weeklyPickupAnalytics']);
 });
 
 Route::group(['middleware' => 'business'], function() {
