@@ -53,6 +53,7 @@ Route::group(['middleware' => 'business'], function() {
     Route::post('/approve-collector', [AuthController::class, 'approveCollector']);
     Route::post('/disapprove-collector', [AuthController::class, 'disapproveCollector']);
     Route::post('/edit-user-profile', [AuthController::class, 'editUserProfile']);
+    Route::post('/add-address', [AddressController::class, 'addAddress']);
     Route::post('/edit-address', [AddressController::class, 'editAddress']);
     Route::get('/unapproved-collectors', [CollectorController::class, 'getUnapprovedCollectors']);
     Route::post('/request-pickup', [AuthController::class, 'newPickupRequest']);

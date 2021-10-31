@@ -195,6 +195,7 @@ class AuthController extends Controller
     }
     public function newPickupRequest(Request $request){
         $collector_id = $request->collector_id;
+        $collector_user_id = Collector::where("id", $collector_id)->get("user_id");
         $user_id = auth()->user()->id;
         $address = Address::where("user_id", $user_id)->get("id");
         $address_id = $address[0]->id;
@@ -210,6 +211,11 @@ class AuthController extends Controller
         $pickup_request->pickup_time =$request->pickup_time;
         $pickup_request->pickup_time_id =$request->pickup_time_id;
         $pickup_request->save();
+        $notification = new Request();
+        $notification->user_id = $collector_id;
+        $notification->title = "New Pickup Request";
+        $notification->body="New request has been made! check your profile for more info!";
+        $notify = $this->sendNotification($notification);
         return response()->json([
             "status" => 1,
             "message" => "Request Successful"
@@ -238,7 +244,7 @@ public function storeToken(Request $request)
         $user = User::find($id);
         $user->device_token = $request->device_token;
         $user->save();
-        return response()->json(['Token successfully stored.']);
+        return response()->json(['Token successfully stored.', $user->device_token]);
     }
 
 
@@ -281,7 +287,6 @@ public function sendNotification(Request $request)
 
     // Close connection
     curl_close($ch);  
-    dd($response);
 }
 
 

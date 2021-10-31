@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\API\AuthController;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Collector;
@@ -23,7 +24,7 @@ class CollectorController extends Controller
     {
     $request->validate([
         "name" => "required",
-        "description" => "required"]);
+        ]);
     $collector = new Collector();
     $collector->name = $request->name;
     $collector->description = $request->description;
@@ -166,11 +167,22 @@ return json_encode($results,JSON_PRETTY_PRINT);
 }   
 
 public function approveRequest(Request $request){
+    
     $request_id = $request->request_id;
     $pickup_request = PickupRequest::find($request_id);
+    $client_id = $pickup_request->user_id;
     $pickup_request->is_approved = 1;
     $pickup_request->is_declined = 0;
     $pickup_request->save();
+
+    $auth_controller = new AuthController;
+    
+    
+    $notification = new Request();
+        $notification->user_id = $client_id;
+        $notification->title = "Your Pickup is approved!!";
+        $notification->body="Your Pickup Request at Garbon has been approved! refer to your profile for more details.";
+        $auth_controller->sendNotification($notification);
     return response()->json([
         'status' => true,
         'message' => 'Collector successfully approved Request',
@@ -180,8 +192,15 @@ public function approveRequest(Request $request){
 public function declineRequest(Request $request){
     $request_id = $request->request_id;
     $pickup_request = PickupRequest::find($request_id);
+    $client_id = $pickup_request->user_id;
     $pickup_request->is_approved = 0;
     $pickup_request->is_declined = 1;
+    $auth_controller = new AuthController;
+    $notification = new Request();
+        $notification->user_id = $client_id;
+        $notification->title = "Your Pickup is declined!!";
+        $notification->body="Your Pickup Request at Garbon has been declined! refer to your profile for more details.";
+        $auth_controller->sendNotification($notification);
     $pickup_request->save();
     return response()->json([
         'status' => true,
@@ -192,6 +211,7 @@ public function declineRequest(Request $request){
 public function eventDone(Request $request){
     $request_id = $request->request_id;
     $pickup_request = PickupRequest::find($request_id);
+  
     $pickup_request->is_done = 1;
     $pickup_request->save();
     return response()->json([
@@ -203,9 +223,16 @@ public function eventDone(Request $request){
 public function eventCancel(Request $request){
     $request_id = $request->request_id;
     $pickup_request = PickupRequest::find($request_id);
+    $client_id = $pickup_request->user_id;
     $pickup_request->is_approved = 0;
     $pickup_request->is_canceled = 1;
     $pickup_request->save();
+    $auth_controller = new AuthController;
+    $notification = new Request();
+    $notification->user_id = $client_id;
+    $notification->title = "Your Pickup has canceled!!";
+    $notification->body="Your Pickup Request at Garbon has been canceled! refer to your profile for more details.";
+    $auth_controller->sendNotification($notification);
     return response()->json([
         'status' => true,
         'message' => 'Event successfully cancel',
@@ -215,9 +242,16 @@ public function eventCancel(Request $request){
 public function eventChange(Request $request){
     $request_id= $request->request_id;
     $pickup_request = PickupRequest::find($request_id);
+    $client_id = $pickup_request->user_id;
     $pickup_request->pickup_date = $request->pickup_date;
     $pickup_request->pickup_time =$request->pickup_time;
     $pickup_request->save();
+    $auth_controller = new AuthController;
+    $notification = new Request();
+    $notification->user_id = $client_id;
+    $notification->title = "Pickup Details Changed!!";
+    $notification->body="Your Pickup Request at Garbon has changed timing! refer to your profile for more details.";
+    $auth_controller->sendNotification($notification);
     return response()->json([
         'status' => true,
         'message' => 'Event successfully changed',
