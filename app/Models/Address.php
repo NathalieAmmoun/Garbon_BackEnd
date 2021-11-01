@@ -10,7 +10,7 @@ use App\Models\PickupRequest;
 class Address extends Model
 {
     use HasFactory;
-    protected $table="Addresses";
+    protected $table="addresses";
     protected $fillable = ["city", "street", "bldg", "floor"];
     public $timestamps = false;
 
