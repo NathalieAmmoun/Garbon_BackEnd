@@ -10,6 +10,8 @@ use App\Models\User;
 use App\Models\TimeSlot;
 use App\Models\CollectorRecycle;
 use App\Models\Collector;
+use App\Models\Address;
+use App\Models\PickupRequest;
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -72,6 +74,14 @@ class DatabaseSeeder extends Seeder
             "email"=> "nathalie@gmail.com",
             "password"=> bcrypt("password"),
             ]);
+
+            Address::create([
+                "city" => "Beirut",
+                "street"=>"Hamra Street",
+                "bldg"=>"Rasamni Bldg",
+                "floor" => "2nd Floor",
+                "user_id"=> "1",
+                ]);
         //Predefined Collectors
         User::create([
             "first_name" => "Collector",
@@ -84,7 +94,7 @@ class DatabaseSeeder extends Seeder
         Collector::create([
             "name"=>"LiveLoveRecycle",
             "user_id"=>"2",
-            "is_approved"=>"0",
+            "is_approved"=>"1",
             "description"=>"With Live Love Recycle, Recycling is Easy, Fast, and FREE !"
         ]);
         CollectorRecycle::create([
@@ -114,7 +124,7 @@ class DatabaseSeeder extends Seeder
             Collector::create([
                 "name"=>"Lebanon Waste Management",
                 "user_id"=>"3",
-                "is_approved"=>"0",
+                "is_approved"=>"1",
                 "description"=>"let's manage the waste and recycle!"
             ]);
             CollectorRecycle::create([
@@ -231,5 +241,137 @@ class DatabaseSeeder extends Seeder
                 
                 "time_slot"=>"17:00"
             ]);
+            PickupRequest::create([
+                    "user_id"=>"1",
+                    "address_id"=>"1",
+                    "collector_id"=>"1",
+                    "is_approved"=>"0",
+                    "is_declined"=>"0",
+                    "is_done"=>"0",
+                    "is_canceled"=>"0",
+                    "pickup_date" =>"2021-11-02",
+                    "pickup_time" =>"09:00",
+                    "pickup_time_id"=>"1"
+
+            ]);
+            PickupRequest::create([
+                "user_id"=>"1",
+                "address_id"=>"1",
+                "collector_id"=>"1",
+                "is_approved"=>"1",
+                "is_declined"=>"0",
+                "is_done"=>"1",
+                "is_canceled"=>"0",
+                "pickup_date" =>"2021-11-02",
+                "pickup_time" =>"11:00",
+                "pickup_time_id"=>"3"
+
+        ]);
+        PickupRequest::create([
+            "user_id"=>"1",
+            "address_id"=>"1",
+            "collector_id"=>"1",
+            "is_approved"=>"1",
+            "is_declined"=>"0",
+            "is_done"=>"0",
+            "is_canceled"=>"0",
+            "pickup_date" =>"2021-11-03",
+            "pickup_time" =>"11:00",
+            "pickup_time_id"=>"3"
+
+    ]);
+
+    PickupRequest::create([
+        "user_id"=>"1",
+        "address_id"=>"1",
+        "collector_id"=>"1",
+        "is_approved"=>"0",
+        "is_declined"=>"0",
+        "is_done"=>"0",
+        "is_canceled"=>"0",
+        "pickup_date" =>"2021-11-03",
+        "pickup_time" =>"14:00",
+        "pickup_time_id"=>"6"
+
+]);
+PickupRequest::create([
+    "user_id"=>"1",
+    "address_id"=>"1",
+    "collector_id"=>"1",
+    "is_approved"=>"1",
+    "is_declined"=>"0",
+    "is_done"=>"1",
+    "is_canceled"=>"0",
+    "pickup_date" =>"2021-11-03",
+    "pickup_time" =>"12:00",
+    "pickup_time_id"=>"4"
+
+]);
+PickupRequest::create([
+    "user_id"=>"1",
+    "address_id"=>"1",
+    "collector_id"=>"1",
+    "is_approved"=>"1",
+    "is_declined"=>"0",
+    "is_done"=>"0",
+    "is_canceled"=>"0",
+    "pickup_date" =>"2021-11-04",
+    "pickup_time" =>"12:00",
+    "pickup_time_id"=>"4"
+
+]);
+
+PickupRequest::create([
+    "user_id"=>"1",
+    "address_id"=>"1",
+    "collector_id"=>"1",
+    "is_approved"=>"0",
+    "is_declined"=>"0",
+    "is_done"=>"0",
+    "is_canceled"=>"1",
+    "pickup_date" =>"2021-11-05",
+    "pickup_time" =>"12:00",
+    "pickup_time_id"=>"4"
+
+]);
+PickupRequest::create([
+    "user_id"=>"1",
+    "address_id"=>"1",
+    "collector_id"=>"1",
+    "is_approved"=>"1",
+    "is_declined"=>"0",
+    "is_done"=>"0",
+    "is_canceled"=>"0",
+    "pickup_date" =>"2021-11-06",
+    "pickup_time" =>"12:00",
+    "pickup_time_id"=>"4"
+
+]);
+PickupRequest::create([
+    "user_id"=>"1",
+    "address_id"=>"1",
+    "collector_id"=>"1",
+    "is_approved"=>"0",
+    "is_declined"=>"0",
+    "is_done"=>"0",
+    "is_canceled"=>"0",
+    "pickup_date" =>"2021-11-05",
+    "pickup_time" =>"09:00",
+    "pickup_time_id"=>"1"
+
+]);
+PickupRequest::create([
+    "user_id"=>"1",
+    "address_id"=>"1",
+    "collector_id"=>"1",
+    "is_approved"=>"0",
+    "is_declined"=>"0",
+    "is_done"=>"0",
+    "is_canceled"=>"0",
+    "pickup_date" =>"2021-11-04",
+    "pickup_time" =>"10:00",
+    "pickup_time_id"=>"2"
+
+]);
     }
 }
