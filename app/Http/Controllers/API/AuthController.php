@@ -164,6 +164,12 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'User successfully signed out']);
     }
+    public function adminLogout()
+    {
+        auth()->logout();
+
+        return view('/');
+    }
     public function editUserProfile(Request $req){
         $id =auth()->user()->id;
         $user = User::find($id);

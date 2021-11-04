@@ -19,6 +19,7 @@ Route::group([
 ], function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::any('/logout', [AuthController::class, 'logout']);
+    Route::post('/adminLogout', [AuthController::class, 'adminLogout'])->name('admin-logout');
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::get('/user-profile', [AuthController::class, 'userProfile']);
     Route::post('/add-address', [AddressController::class, 'addAddress']);

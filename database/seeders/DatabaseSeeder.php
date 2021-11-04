@@ -84,8 +84,8 @@ class DatabaseSeeder extends Seeder
                 ]);
         //Predefined Collectors
         User::create([
-            "first_name" => "Collector",
-            "last_name"=>"Collector",
+            "first_name" => "Charbel",
+            "last_name"=>"Daoud",
             "user_type"=>"4",
             "phone" => "+96176633138",
             "email"=> "nathalie.ammoun98@gmail.com",
