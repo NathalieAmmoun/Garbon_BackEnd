@@ -18,7 +18,6 @@ public function addBusiness(Request $request)
 {
 $request->validate([
     "name" => "required",
-    "description" => "required",
     "industry_id" => "required"]);
     
     $business = new Business();
