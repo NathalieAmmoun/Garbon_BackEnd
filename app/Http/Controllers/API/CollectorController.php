@@ -125,7 +125,8 @@ public function getUnapprovedCollectors(){
     $results = array();
     for($i = 0; $i < count($collectors); $i++){
         $results[$i]["collectors"] = $collectors[$i];
-        $results[$i]["recyclables"] = $recyclables[$i];}                             
+        if(count($recyclables)>i){
+        $results[$i]["recyclables"] = $recyclables[$i];}}                             
         return json_encode($results,JSON_PRETTY_PRINT);  
 } 
 
