@@ -73,7 +73,7 @@
                                         <div class="account-dropdown js-dropdown">
                                             
                                             <div class="account-dropdown__footer">
-                                                <a href="{{url('admin-logout'}}">
+                                                <a href="{{url('admin-logout')}}">
                                                     <i class="zmdi zmdi-power"></i>Logout</a>
                                             </div>
                                         </div>
