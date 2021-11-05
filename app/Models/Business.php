@@ -10,7 +10,7 @@ use App\Models\Industry;
 class Business extends Model
 {
     use HasFactory;
-    protected $table="Businesses";
+    protected $table="businesses";
     protected $fillable = ["name"];
     public $timestamps = false;
 
